@@ -3,9 +3,21 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'native-base';
 import { Actions as NavigationActions } from 'react-native-router-flux';
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  AccessToken
+} = FBSDK;
 
 // create a component
 class MainScreen extends React.Component {
+  constructor(props){
+    super(props)
+    this.state={
+      loginStatus: false,
+    }
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -18,34 +30,64 @@ class MainScreen extends React.Component {
           <View style={styles.lineBot} />
         </View>
 
-        <View style={styles.boxButton}>
-          <Button
-            onPress={() => NavigationActions.fetchlist({ paramKey: 'rsumum' })}
-            style={{
-              backgroundColor: '#028090',
-              margin: 15
-            }} full>
-            <Text style={{color: '#fff'}}>Rs Umum</Text>
-          </Button>
+          {this.state.loginStatus
+          ?
+          <View style={styles.boxButton}>
+            <Button
+              onPress={() => NavigationActions.fetchlist({ paramKey: 'rsumum' })}
+              style={{
+                backgroundColor: '#028090',
+                margin: 15
+              }} full>
+              <Text style={{color: '#fff'}}>Rs Umum</Text>
+            </Button>
 
-          <Button 
-            onPress={() => NavigationActions.fetchlist({ paramKey: 'rskhusus' })}
-            style={{
-              backgroundColor: '#02C39A',
-              margin: 15
-            }} full>
-            <Text style={{color: '#fff'}}>Rs Khusus</Text>
-          </Button>
+            <Button
+              onPress={() => NavigationActions.fetchlist({ paramKey: 'rskhusus' })}
+              style={{
+                backgroundColor: '#02C39A',
+                margin: 15
+              }} full>
+              <Text style={{color: '#fff'}}>Rs Khusus</Text>
+            </Button>
 
-          <Button 
-            onPress={() => NavigationActions.fetchlist({ paramKey: 'puskesmas' })}
-            style={{
-              backgroundColor: '#00A896',
-              margin: 15
-            }} full>
-            <Text style={{color: '#fff'}}>Puskesmas</Text>
-          </Button>
+            <Button
+              onPress={() => NavigationActions.fetchlist({ paramKey: 'puskesmas' })}
+              style={{
+                backgroundColor: '#00A896',
+                margin: 15
+              }} full>
+              <Text style={{color: '#fff'}}>Puskesmas</Text>
+            </Button>
+          </View>
+           : <Text></Text>
+          }
+
+        <View>
+          <LoginButton
+          publishPermissions={["publish_actions"]}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("login cancel")
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    {/*alert(data.accessToken.toString())*/}
+                    this.setState({loginStatus: true})
+
+                  }
+                )
+              }
+            }
+          }
+          onLogoutFinished={() =>
+            this.setState({loginStatus: false})
+          }/>
         </View>
+
       </View>
     );
   }
