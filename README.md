@@ -10,6 +10,24 @@ is boilerplate react-native (android) without state management, config API in **
   </tr>
 </table>
 
+# Icon On Apps
+PUT ic_launcher.png to Folder
+```
+1. Sample Image : http://www.freeiconspng.com/uploads/food-salad-21.png
+2. [ProjectName]/android/app/src/main/res/mipmap-*.
+3. You can convert image size in : https://www.garyshood.com/imageconvert/
+```
+```
+72*72 ic_launcher.png to mipmap-hdpi.
+48*48 ic_launcher.png to mipmap-mdpi.
+96*96 ic_launcher.png to mipmap-xhdpi.
+144*144 ic_launcher.png to mipmap-xxhdpi.
+```
+
+```
+Example Result : http://ibb.co/iA27EQ
+```
+
 # Example Case Project
 - How to use Listview on RN
 - How to use FB SDK

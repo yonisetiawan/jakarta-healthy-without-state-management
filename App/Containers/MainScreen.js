@@ -1,12 +1,13 @@
 // import liraries
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Button } from 'native-base';
 import { Actions as NavigationActions } from 'react-native-router-flux';
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
-  AccessToken
+  AccessToken,
+  AppEventsLogger
 } = FBSDK;
 
 // create a component
@@ -16,6 +17,10 @@ class MainScreen extends React.Component {
     this.state={
       loginStatus: false,
     }
+  }
+
+  analiticsTesting(){
+    AppEventsLogger.logEvent('Testing')
   }
 
   render () {
@@ -62,6 +67,15 @@ class MainScreen extends React.Component {
           </View>
            : <Text></Text>
           }
+
+          <Button
+            onPress={() => this.analiticsTesting}
+            style={{
+              backgroundColor: '#028090',
+              margin: 15
+            }} full>
+            <Text style={{color: '#fff'}}>Button Analitics</Text>
+          </Button>
 
         <View>
           <LoginButton
